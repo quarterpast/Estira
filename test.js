@@ -41,3 +41,11 @@ assert(new Lorem().quux() === 5);
 assert(new Lorem().ipsum() === 7);
 assert(Lorem.frob() === 6);
 assert(Lorem.dolor() === 8);
+
+var Sit = Baz.extend({
+	quux: function() {
+		return this.super$.quux.apply(this, arguments) + 1;
+	}
+});
+
+assert(new Sit().quux() === 6);

@@ -4,12 +4,15 @@
     Estira.displayName = 'Estira';
     var prototype = Estira.prototype, constructor = Estira;
     Estira.extend = function(proto, meta){
+      var super$;
+      super$ = this.prototype;
       return (function(superclass){
         var prototype = extend$(import$(constructor, superclass), superclass).prototype;
         importAll$(prototype, arguments[1]);
         function constructor(){
           var this$ = this instanceof ctor$ ? this : new ctor$;
           constructor.superclass.apply(this$, arguments);
+          this$.super$ = super$;
           return this$;
         } function ctor$(){} ctor$.prototype = prototype;
         import$(constructor, meta);

@@ -49,3 +49,19 @@ var Sit = Baz.extend({
 });
 
 assert(new Sit().quux() === 6);
+
+var Init = Base.extend({
+	initialize: function(a) {
+		this.a = a;
+	}
+});
+
+assert(new Init(5).a === 5);
+
+var Sub = Init.extend({
+	initialize: function(a) {
+		this.super$.initialize.call(this, a * 2);
+	}
+});
+
+assert(new Sub(5).a === 10);

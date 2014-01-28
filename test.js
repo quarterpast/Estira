@@ -60,8 +60,18 @@ assert(new Init(5).a === 5);
 
 var Sub = Init.extend({
 	initialize: function(a) {
+		assert(this.super$ === Init.prototype);
 		this.super$.initialize.call(this, a * 2);
 	}
 });
 
 assert(new Sub(5).a === 10);
+
+var SubSub = Sub.extend({
+	initialize: function(a) {
+		assert(this.super$ === Sub.prototype);
+		this.super$.initialize.call(this, a * 2);
+	}
+});
+
+assert(new SubSub(5).a === 20);

@@ -1,6 +1,6 @@
 {
   "name": "estira",
-  "version": "0.0.1",
+  "version": "0.2.0",
   "description": "Expose Livescript's class system to JavaScript",
   "ignore": [
     "node_modules",

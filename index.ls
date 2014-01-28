@@ -7,9 +7,8 @@ return class Estira
 	@extend = (proto, meta)->
 		super$ = @::
 		class extends this implements proto
-			~>
-				super ...
-				import {super$}
+			super$: super$
+			~> super ...
 			import meta
 
 	~> @initialize? ...

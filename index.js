@@ -12,11 +12,12 @@
   })(function(){
     var getFnName, Base;
     getFnName = function(fn){
-      var that;
+      var that, ident;
       if ((that = fn.name) != null) {
         return that;
       } else {
-        return fn.toString().replace(/^function\s+([a-z\$_][a-z\d\$_]*)\(\).+/i, '$1');
+        ident = '[a-z\\$_][a-z\\d\\$_]*';
+        return fn.toString().split('\n')[0].replace(RegExp('^function\\s+(' + ident + ')\\(.*\\).+$', 'i'), '$1');
       }
     };
     return Base = (function(){

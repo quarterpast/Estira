@@ -3,12 +3,28 @@
 	| typeof exports is \object => module.exports = definition!
 	| otherwise => @Base = definition!
 
-return class Estira
-	@extend = (proto, meta)->
-		super$ = @::
-		class extends this implements proto
-			super$: super$
+get-fn-name = (fn)->
+	if fn.name? then that # real browsers
+	else # ie
+		fn.to-string!.replace /^function\s+([a-z\$_][a-z\d\$_]*)\(\).+/i \$1 # this is horrible
+
+return class Base
+	@extend = (...fns)->
+		superklass = this
+		class extends this
+			for fn in fns
+				name = get-fn-name fn
+				fn.super$ = ::[name]
+				fn.superclass$ = superclass
+				(name): fn
 			~> super ...
-			import meta
+
+	@meta = (...fns)->
+		for fn in fns
+			name = get-fn-name fn
+			fn.super$ = @[name]
+			fn.superclass$ = this
+			@[name] = fn
+		this
 
 	~> @initialize? ...

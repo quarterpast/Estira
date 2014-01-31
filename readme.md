@@ -53,6 +53,11 @@ var Subclass = Superclass.extend(
 );
 ```
 
+Extending third-party classes
+-----------------------------
+If you want to extend a class that doesn't derive from `Base` (e.g. `EventEmitter`), you can shoehorn estira onto it using `Sub = Base.extend.call(EventEmitter, ...methods)`. Classes created this way *can* be further extended, and `super$` calls still work.
+
+
 Woah there, tiger
 -----------------
 Estira relies on the **totally non-standard** `Function.prototype.name`, with fallback to the **totally implementation-dependent** `Function.prototype.toString` along with [some gnarly regexes](/index.ls#L12). Please be careful.

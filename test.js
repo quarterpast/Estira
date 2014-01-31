@@ -16,6 +16,7 @@ assert(bar instanceof Base);
 
 var Baz = Base.extend(
 	function quux() {
+		assert(this instanceof Baz);
 		return 5;
 	}
 ).meta(
@@ -53,6 +54,7 @@ assert(new Sit().quux() === 6);
 var Init = Base.extend(
 	function initialize(a) {
 		this.a = a;
+		assert(this instanceof Init);
 		assert(initialize.superclass$ === Base);
 	}
 );
@@ -62,6 +64,7 @@ assert(new Init(5).a === 5);
 var Sub = Init.extend(
 	function initialize(a) {
 		initialize.super$.call(this,a * 2);
+		assert(this instanceof Sub);
 		assert(initialize.superclass$ === Init);
 	}
 );
@@ -78,14 +81,17 @@ var SubSub = Sub.extend(
 assert(new SubSub(5).a === 20);
 
 function External(a) {
+	assert(this instanceof External);
 	this.a = a;
 }
 
 External.prototype.foo = function(b) {
+	assert(this instanceof External);
 	return this.a * b;
 };
 
 External.prototype.bar = function(b) {
+	assert(this instanceof External);
 	return this.a + b;
 };
 

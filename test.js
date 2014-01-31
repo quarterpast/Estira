@@ -76,3 +76,33 @@ var SubSub = Sub.extend(
 );
 
 assert(new SubSub(5).a === 20);
+
+function External(a) {
+	this.a = a;
+}
+
+External.prototype.foo = function(b) {
+	return this.a * b;
+};
+
+External.prototype.bar = function(b) {
+	return this.a + b;
+};
+
+var ExternalSub = Base.extend.call(External,
+	function foo(b) {
+		return foo.super$(b + 2);
+	}
+);
+var e = new ExternalSub(5);
+assert(e instanceof ExternalSub);
+assert(e instanceof External);
+assert(e.a === 5);
+assert(e.bar(4) === 9);
+assert(e.foo(4) === 30);
+
+var ExternalSubSub = External.extend();
+var es = new ExternalSubSub(5);
+assert(es instanceof ExternalSubSub);
+assert(es instanceof ExternalSub);
+assert(es instanceof External);

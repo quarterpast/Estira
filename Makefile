@@ -5,4 +5,4 @@ all: index.js
 
 .PHONY: test
 test: all
-	node test.js
+	faucet test.js

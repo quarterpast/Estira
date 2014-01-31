@@ -17,12 +17,16 @@ return class Base
 			import Base
 			for let fn in fns
 				name = get-fn-name fn
-				super$ = ::[name]
-				fn.superclass$ = superclass
-				::[name] = ->
-					fn.super$ = ~> super$ ...
-					fn ...
-			~> super ...
+				if name is \initialize
+					fn.super$ = ~> superclass ...&
+
+				else
+					super$ = ::[name]
+					fn.superclass$ = superclass
+					::[name] = ->
+						fn.super$ = ~> super$ ...
+						fn ...
+			~> @initialize? ...
 
 	@meta = (...fns)->
 		for let fn in fns

@@ -5,7 +5,7 @@ all: index.js
 
 .PHONY: test
 test: all
-	node_modules/.bin/browserify -t coverify test.js | node | node_modules/.bin/coverify | node_modules/.bin/faucet
+	node_modules/.bin/faucet test.js
 
 test-browser: all
-	node_modules/.bin/browserify test.js | node_modules/.bin/testling | node_modules/.bin/coverify | node_modules/.bin/faucet
+	node_modules/.bin/browserify test.js | node_modules/.bin/testling | node_modules/.bin/faucet

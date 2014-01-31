@@ -70,7 +70,6 @@ test('initializers', function(t) {
 			t.ok(initialize.superclass$ === Base, 'superclass$ is set');
 		}
 	);
-
 	t.ok(new Init(5).a === 5, 'initializer works');
 
 	var Sub = Init.extend(

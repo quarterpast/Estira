@@ -2,13 +2,17 @@ var Base = require('./'),
     test = require('tape');
 
 
-test('estira', function(t) {
+test('basic extend', function(t) {
 	var Foo = Base.extend();
 	var foo = new Foo();
 
 	t.ok(foo instanceof Foo, 'instance of subclass');
 	t.ok(foo instanceof Base, 'instance of base class');
 
+	t.end();
+});
+test('double extend', function(t) {
+	var Foo = Base.extend();
 	var Bar = Foo.extend();
 	var bar = new Bar();
 
@@ -16,6 +20,9 @@ test('estira', function(t) {
 	t.ok(bar instanceof Foo, 'instance of subclass');
 	t.ok(bar instanceof Base, 'instance of base class');
 
+	t.end();
+});
+test('methods', function(t) {
 	var Baz = Base.extend(
 		function quux() {
 			t.ok(this instanceof Baz, 'context is right class');
@@ -53,6 +60,9 @@ test('estira', function(t) {
 
 	t.ok(new Sit().quux() === 6, 'super$ calls work');
 
+	t.end();
+});
+test('initializers', function(t) {
 	var Init = Base.extend(
 		function initialize(a) {
 			this.a = a;
@@ -82,6 +92,9 @@ test('estira', function(t) {
 
 	t.ok(new SubSub(5).a === 20, 'double inherited initializer works');
 
+	t.end();
+});
+test('external classes', function(t) {
 	function External(a) {
 		t.ok(this instanceof External, 'right context');
 		this.a = a;
@@ -119,6 +132,20 @@ test('estira', function(t) {
 	t.ok(es instanceof ExternalSubSub, 'instance of right class');
 	t.ok(es instanceof ExternalSub, 'instance of right class');
 	t.ok(es instanceof External, 'instance of right class');
+
+	t.end();
+});
+
+test('bare constructors', function(t) {
+	var Bare = Base.extend(
+		function initialize(a) {
+			this.a = a;
+		}
+	);
+
+	var b = Bare(5);
+	t.ok(b instanceof Bare, 'bare constructors work');
+	t.ok(b.a = 5, 'bare constructor initializers work');
 
 	t.end();
 });

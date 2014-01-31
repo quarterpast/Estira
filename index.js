@@ -34,30 +34,22 @@
           }
           function constructor(){
             var this$ = this instanceof ctor$ ? this : new ctor$;
-            if (typeof this$.initialize === 'function') {
-              this$.initialize.apply(this$, arguments);
-            }
+            constructor.superclass.apply(this$, arguments);
             return this$;
           } function ctor$(){} ctor$.prototype = prototype;
           return constructor;
           function fn$(fn){
-            var name, super$, this$ = this;
+            var name, super$;
             name = getFnName(fn);
-            if (name === 'initialize') {
+            super$ = prototype[name];
+            fn.superclass$ = superclass;
+            prototype[name] = function(){
+              var this$ = this;
               fn.super$ = function(){
-                return superclass.apply(null, arguments);
+                return super$.apply(this$, arguments);
               };
-            } else {
-              super$ = prototype[name];
-              fn.superclass$ = superclass;
-              prototype[name] = function(){
-                var this$ = this;
-                fn.super$ = function(){
-                  return super$.apply(this$, arguments);
-                };
-                return fn.apply(this, arguments);
-              };
-            }
+              return fn.apply(this, arguments);
+            };
           }
         }(this));
       };

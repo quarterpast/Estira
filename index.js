@@ -29,12 +29,19 @@
         return (function(superclass){
           var i$, len$, prototype = extend$(import$(constructor, superclass), superclass).prototype;
           import$(constructor, Base);
+          prototype.initialize = function(){
+            if (superclass.prototype.initialize != null) {
+              return superclass.prototype.initialize.apply(this, arguments);
+            } else {
+              return superclass.apply(this, arguments);
+            }
+          };
           for (i$ = 0, len$ = fns.length; i$ < len$; ++i$) {
             (fn$.call(constructor, fns[i$]));
           }
           function constructor(){
             var this$ = this instanceof ctor$ ? this : new ctor$;
-            constructor.superclass.apply(this$, arguments);
+            this$.initialize.apply(this$, arguments);
             return this$;
           } function ctor$(){} ctor$.prototype = prototype;
           return constructor;
@@ -74,13 +81,8 @@
           };
         }
       };
-      function Base(){
-        var this$ = this instanceof ctor$ ? this : new ctor$;
-        if (typeof this$.initialize === 'function') {
-          this$.initialize.apply(this$, arguments);
-        }
-        return this$;
-      } function ctor$(){} ctor$.prototype = prototype;
+      prototype.initialize = function(){};
+      function Base(){}
       return Base;
     }());
   });

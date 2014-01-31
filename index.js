@@ -24,17 +24,13 @@
       Base.displayName = 'Base';
       var prototype = Base.prototype, constructor = Base;
       Base.extend = function(){
-        var fns, superklass;
+        var fns;
         fns = slice$.call(arguments);
-        superklass = this;
         return (function(superclass){
-          var i$, ref$, len$, fn, name, prototype = extend$(import$(constructor, superclass), superclass).prototype;
-          for (i$ = 0, len$ = (ref$ = fns).length; i$ < len$; ++i$) {
-            fn = ref$[i$];
-            name = getFnName(fn);
-            fn.super$ = prototype[name];
-            fn.superclass$ = superclass;
-            prototype[name] = fn;
+          var i$, len$, prototype = extend$(import$(constructor, superclass), superclass).prototype;
+          import$(constructor, Base);
+          for (i$ = 0, len$ = fns.length; i$ < len$; ++i$) {
+            (fn$.call(constructor, fns[i$]));
           }
           function constructor(){
             var this$ = this instanceof ctor$ ? this : new ctor$;
@@ -42,19 +38,41 @@
             return this$;
           } function ctor$(){} ctor$.prototype = prototype;
           return constructor;
+          function fn$(fn){
+            var name, super$;
+            name = getFnName(fn);
+            super$ = prototype[name];
+            fn.superclass$ = superclass;
+            prototype[name] = function(){
+              var this$ = this;
+              fn.super$ = function(){
+                return super$.apply(this$, arguments);
+              };
+              return fn.apply(this, arguments);
+            };
+          }
         }(this));
       };
       Base.meta = function(){
-        var fns, i$, len$, fn, name;
+        var fns, i$, len$;
         fns = slice$.call(arguments);
         for (i$ = 0, len$ = fns.length; i$ < len$; ++i$) {
-          fn = fns[i$];
-          name = getFnName(fn);
-          fn.super$ = this[name];
-          fn.superclass$ = this;
-          this[name] = fn;
+          (fn$.call(this, fns[i$]));
         }
         return this;
+        function fn$(fn){
+          var name, super$;
+          name = getFnName(fn);
+          super$ = this[name];
+          fn.superclass$ = this;
+          this[name] = function(){
+            var this$ = this;
+            fn.super$ = function(){
+              return super$.apply(this$, arguments);
+            };
+            return fn.apply(this, arguments);
+          };
+        }
       };
       function Base(){
         var this$ = this instanceof ctor$ ? this : new ctor$;

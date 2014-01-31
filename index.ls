@@ -13,21 +13,25 @@ get-fn-name = (fn)->
 
 return class Base
 	@extend = (...fns)->
-		superklass = this
 		class extends this
-			for fn in fns
+			import Base
+			for let fn in fns
 				name = get-fn-name fn
-				fn.super$ = ::[name]
+				super$ = ::[name]
 				fn.superclass$ = superclass
-				(name): fn
+				::[name] = ->
+					fn.super$ = ~> super$ ...
+					fn ...
 			~> super ...
 
 	@meta = (...fns)->
-		for fn in fns
+		for let fn in fns
 			name = get-fn-name fn
-			fn.super$ = @[name]
+			super$ = @[name]
 			fn.superclass$ = this
-			@[name] = fn
+			@[name] = ->
+				fn.super$ = ~> super$ ...
+				fn ...
 		this
 
 	~> @initialize? ...

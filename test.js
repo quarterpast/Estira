@@ -107,7 +107,7 @@ assert(e.a === 5);
 assert(e.bar(4) === 9);
 assert(e.foo(4) === 30);
 
-var ExternalSubSub = External.extend();
+var ExternalSubSub = ExternalSub.extend();
 var es = new ExternalSubSub(5);
 assert(es instanceof ExternalSubSub);
 assert(es instanceof ExternalSub);

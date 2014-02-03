@@ -2,6 +2,7 @@
   "name": "estira",
   "version": "0.2.1",
   "description": "Expose Livescript's class system to JavaScript",
+  "main": "index.js",
   "ignore": [
     "node_modules",
     "bower_components",

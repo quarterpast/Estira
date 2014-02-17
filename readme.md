@@ -2,20 +2,20 @@
 
 **OR CAN WE.**
 
-Estira
+Estira [![](https://travis-ci.org/quarterto/Estira.png)](https://travis-ci.org/quarterto/Estira)
 ======
 
 ```javascript
 const Base = require('estira');
 
-var Foo = Base.extend(
-  function initialize(bar) {
+var Foo = Base.extend({
+  initialize: function(bar) {
     this.bar = bar;
   },
-  function frob(baz) {
+  frob: function(baz) {
     return this.bar + baz;
   }
-);
+});
 
 var foo = new Foo("hello ");
 foo.frob("world"); //⇒ "hello world"
@@ -28,11 +28,11 @@ API
 
 Base class with the bare minimal needed for inheritance. Extend it, it doesn't do much on its own.
 
-### `Subclass = Superclass.extend(...fns)`
+### `Subclass = Superclass.extend(methods)`
 
-Returns a prototypal subclass of `Superclass`, inheriting `Superclass`'s instance and class properties, extended with the named functions passed in. If `fns` contains a method called `initialize`, it is used as `Subclass`'s constructor. If `initialize` is omitted, it delegates to the parent class' constructor.
+Returns a prototypal subclass of `Superclass`, inheriting `Superclass`'s instance and class properties, extended with the object passed in. If `methods` contains a method called `initialize`, it is used as `Subclass`'s constructor. If `initialize` is omitted, it delegates to the parent class' constructor.
 
-### `Class.meta(...fns)`
+### `Class.meta(methods)`
 
 Extends the "metaclass" of `Class`. Lets you add static methods, which may be inherited.
 
@@ -41,13 +41,13 @@ Extends the "metaclass" of `Class`. Lets you add static methods, which may be in
 Refers to the parent class implementation of the function. Lets you call super methods like
 
 ```javascript
-var Superclass = Base.extend(
-  function quux() {
+var Superclass = Base.extend({
+  quux: function() {
     return "hello";
   }
-);
+});
 var Subclass = Superclass.extend(
-  function quux() {
+  quux: function quux() {
     return quux.super$() + " world";
   }
 );
@@ -55,13 +55,9 @@ var Subclass = Superclass.extend(
 
 Extending third-party classes
 -----------------------------
-If you want to extend a class that doesn't derive from `Base` (e.g. `EventEmitter`), you can shoehorn estira onto it using `Sub = Base.extend.call(EventEmitter, ...methods)`. Classes created this way *can* be further extended, and `super$` calls still work.
+If you want to extend a class that doesn't derive from `Base` (e.g. `EventEmitter`), you can shoehorn estira onto it using `Sub = Base.extend.call(EventEmitter, methods)`. Classes created this way *can* be further extended, and `super$` calls still work.
 
-
-Woah there, tiger
------------------
-Estira relies on the **totally non-standard** `Function.prototype.name`, with fallback to the **totally implementation-dependent** `Function.prototype.toString` along with [some gnarly regexes](/index.ls#L12). Please be careful.
 
 Licence
 -------
-[MIT](/licence.md). &copy; 2013 Matt Brennan.
+[MIT](/licence.md). &copy; 2014 Matt Brennan.

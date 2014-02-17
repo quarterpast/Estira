@@ -2,7 +2,7 @@
 
 **OR CAN WE.**
 
-Estira [!()[https://travis-ci.org/quarterto/Estira.png]](https://travis-ci.org/quarterto/Estira)
+Estira [![](https://travis-ci.org/quarterto/Estira.png)](https://travis-ci.org/quarterto/Estira)
 ======
 
 ```javascript

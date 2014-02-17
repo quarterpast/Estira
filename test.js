@@ -64,7 +64,7 @@ test('methods', function(t) {
 });
 test('initializers', function(t) {
 	var Init = Base.extend({
-		initialize: function(a) {
+		initialize: function initialize(a) {
 			this.a = a;
 			t.ok(this instanceof Init, 'right context');
 			t.ok(initialize.superclass$ === Base, 'superclass$ is set');
@@ -109,11 +109,11 @@ test('external classes', function(t) {
 		return this.a + b;
 	};
 
-	var ExternalSub = Base.extend.call(External,
-		function foo(b) {
+	var ExternalSub = Base.extend.call(External, {
+		foo: function foo(b) {
 			return foo.super$(b + 2);
 		}
-	);
+	});
 	var e = new ExternalSub(5);
 	t.ok(e instanceof ExternalSub, 'instance of right class');
 	t.ok(e instanceof External, 'instance of right class');

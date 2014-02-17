@@ -1,5 +1,4 @@
 (function(){
-  var slice$ = [].slice;
   (function(definition){
     switch (false) {
     case !(typeof define === 'function' && define.amd != null):
@@ -10,24 +9,13 @@
       return this.Base = definition();
     }
   })(function(){
-    var getFnName, Base;
-    getFnName = function(fn){
-      var that, ident;
-      if ((that = fn.name) != null) {
-        return that;
-      } else {
-        ident = '[a-z\\$_][a-z\\d\\$_]*';
-        return fn.toString().split('\n')[0].replace(RegExp('^function\\s+(' + ident + ')\\(.*\\).+$', 'i'), '$1');
-      }
-    };
+    var Base;
     return Base = (function(){
       Base.displayName = 'Base';
       var prototype = Base.prototype, constructor = Base;
-      Base.extend = function(){
-        var fns;
-        fns = slice$.call(arguments);
+      Base.extend = function(methods){
         return (function(superclass){
-          var i$, len$, prototype = extend$(import$(constructor, superclass), superclass).prototype;
+          var i$, prototype = extend$(import$(constructor, superclass), superclass).prototype;
           import$(constructor, Base);
           prototype.initialize = function(){
             if (superclass.prototype.initialize != null) {
@@ -36,8 +24,8 @@
               return superclass.apply(this, arguments);
             }
           };
-          for (i$ = 0, len$ = fns.length; i$ < len$; ++i$) {
-            (fn$.call(constructor, fns[i$]));
+          for (i$ in methods) {
+            (fn$.call(constructor, i$, methods[i$]));
           }
           function constructor(){
             var this$ = this instanceof ctor$ ? this : new ctor$;
@@ -45,9 +33,8 @@
             return this$;
           } function ctor$(){} ctor$.prototype = prototype;
           return constructor;
-          function fn$(fn){
-            var name, super$;
-            name = getFnName(fn);
+          function fn$(name, fn){
+            var super$;
             super$ = prototype[name];
             fn.superclass$ = superclass;
             prototype[name] = function(){
@@ -60,16 +47,14 @@
           }
         }(this));
       };
-      Base.meta = function(){
-        var fns, i$, len$;
-        fns = slice$.call(arguments);
-        for (i$ = 0, len$ = fns.length; i$ < len$; ++i$) {
-          (fn$.call(this, fns[i$]));
+      Base.meta = function(methods){
+        var i$;
+        for (i$ in methods) {
+          (fn$.call(this, i$, methods[i$]));
         }
         return this;
-        function fn$(fn){
-          var name, super$;
-          name = getFnName(fn);
+        function fn$(name, fn){
+          var super$;
           super$ = this[name];
           fn.superclass$ = this;
           this[name] = function(){

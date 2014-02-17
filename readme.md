@@ -30,7 +30,7 @@ Base class with the bare minimal needed for inheritance. Extend it, it doesn't d
 
 ### `Subclass = Superclass.extend(methods)`
 
-Returns a prototypal subclass of `Superclass`, inheriting `Superclass`'s instance and class properties, extended with the object passed in. If `fns` contains a method called `initialize`, it is used as `Subclass`'s constructor. If `initialize` is omitted, it delegates to the parent class' constructor.
+Returns a prototypal subclass of `Superclass`, inheriting `Superclass`'s instance and class properties, extended with the object passed in. If `methods` contains a method called `initialize`, it is used as `Subclass`'s constructor. If `initialize` is omitted, it delegates to the parent class' constructor.
 
 ### `Class.meta(methods)`
 

@@ -12,11 +12,26 @@
     var Base;
     return Base = (function(){
       Base.displayName = 'Base';
-      var prototype = Base.prototype, constructor = Base;
-      Base.extend = function(methods){
+      var attach, prototype = Base.prototype, constructor = Base;
+      attach = function(obj, name, prop, super$, superclass$){
+        return obj[name] = typeof prop === 'function' ? function(){
+          var this$ = this;
+          prop.superclass$ = superclass$;
+          prop.super$ = function(){
+            return super$.apply(this$, arguments);
+          };
+          return prop.apply(this, arguments);
+        } : prop;
+      };
+      Base.extend = function(proto){
         return (function(superclass){
-          var i$, prototype = extend$(import$(constructor, superclass), superclass).prototype;
+          var name, ref$, prop, prototype = extend$(import$(constructor, superclass), superclass).prototype;
           import$(constructor, Base);
+          function constructor(){
+            var this$ = this instanceof ctor$ ? this : new ctor$;
+            this$.initialize.apply(this$, arguments);
+            return this$;
+          } function ctor$(){} ctor$.prototype = prototype;
           prototype.initialize = function(){
             if (superclass.prototype.initialize != null) {
               return superclass.prototype.initialize.apply(this, arguments);
@@ -24,47 +39,20 @@
               return superclass.apply(this, arguments);
             }
           };
-          for (i$ in methods) {
-            (fn$.call(constructor, i$, methods[i$]));
+          for (name in ref$ = proto) {
+            prop = ref$[name];
+            attach(prototype, name, prop, prototype[name], superclass);
           }
-          function constructor(){
-            var this$ = this instanceof ctor$ ? this : new ctor$;
-            this$.initialize.apply(this$, arguments);
-            return this$;
-          } function ctor$(){} ctor$.prototype = prototype;
           return constructor;
-          function fn$(name, fn){
-            var super$;
-            super$ = prototype[name];
-            fn.superclass$ = superclass;
-            prototype[name] = function(){
-              var this$ = this;
-              fn.super$ = function(){
-                return super$.apply(this$, arguments);
-              };
-              return fn.apply(this, arguments);
-            };
-          }
         }(this));
       };
-      Base.meta = function(methods){
-        var i$;
-        for (i$ in methods) {
-          (fn$.call(this, i$, methods[i$]));
+      Base.meta = function(meta){
+        var name, prop;
+        for (name in meta) {
+          prop = meta[name];
+          attach(this, name, prop, this[name], this);
         }
         return this;
-        function fn$(name, fn){
-          var super$;
-          super$ = this[name];
-          fn.superclass$ = this;
-          this[name] = function(){
-            var this$ = this;
-            fn.super$ = function(){
-              return super$.apply(this$, arguments);
-            };
-            return fn.apply(this, arguments);
-          };
-        }
       };
       prototype.initialize = function(){};
       function Base(){}

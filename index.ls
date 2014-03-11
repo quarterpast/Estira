@@ -4,27 +4,30 @@
 	| otherwise => @Base = definition!
 
 return class Base
-	@extend = (methods)->
-		class extends this
-			import Base
-			initialize: ->
-				if super? then super ...
-				else superclass ...
-			for let name, fn of methods
-				super$ = ::[name]
-				fn.superclass$ = superclass
-				::[name] = ->
-					fn.super$ = ~> super$ ...
-					fn ...
-			~> @initialize ...
+	attach = (obj, name, prop, super$, superclass$)->
+		obj[name] = if typeof prop is \function then ->
+			prop import {
+				superclass$,
+				super$: ~> super$ ...
+			}
+			prop ...
+		else prop
 
-	@meta = (methods)->
-		for let name, fn of methods
-			super$ = @[name]
-			fn.superclass$ = this
-			@[name] = ->
-				fn.super$ = ~> super$ ...
-				fn ...
-		this
+	@extend = (proto)-> class extends this
+		import Base
+
+		~> @initialize ...
+
+		initialize: ->
+			if super? then super ...
+			else superclass ...
+
+		for name, prop of proto
+			attach ::, name, prop, ::[name], superclass
+
+	@meta = (meta)->
+		for name, prop of meta
+			attach @, name, prop, @[name], this
+		return this
 
 	initialize: ->

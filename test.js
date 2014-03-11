@@ -144,7 +144,24 @@ test('bare constructors', function(t) {
 
 	var b = Bare(5);
 	t.ok(b instanceof Bare, 'bare constructors work');
-	t.ok(b.a = 5, 'bare constructor initializers work');
+	t.ok(b.a === 5, 'bare constructor initializers work');
+
+	t.end();
+});
+
+test('non-function members', function(t) {
+	var Members = Base.extend({
+		a: 5
+	});
+
+	var b = Members();
+	t.ok(b.a === 5, 'non-function members work');
+
+	var MetaMembers = Base.extend({}).meta({
+		a: 5
+	});
+
+	t.ok(MetaMembers.a === 5, 'non-function members work');
 
 	t.end();
 });

@@ -23,10 +23,14 @@
           return prop.apply(this, arguments);
         } : prop;
       };
-      Base.extend = function(proto){
+      Base.extend = function(displayName, proto){
+        proto == null && (proto = displayName);
         return (function(superclass){
           var name, ref$, prop, prototype = extend$(import$(constructor, superclass), superclass).prototype;
           import$(constructor, Base);
+          if (typeof displayName === 'string') {
+            constructor.displayName = displayName;
+          }
           function constructor(){
             var this$ = this instanceof ctor$ ? this : new ctor$;
             this$.initialize.apply(this$, arguments);

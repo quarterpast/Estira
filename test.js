@@ -165,3 +165,10 @@ test('non-function members', function(t) {
 
 	t.end();
 });
+test('display name', function(t) {
+	var Named = Base.extend('Named', {});
+	
+	t.ok(Named.displayName === 'Named', 'first argument as string sets the display name');
+
+	t.end();
+});

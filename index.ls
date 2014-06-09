@@ -13,17 +13,20 @@ return class Base
 			prop ...
 		else prop
 
-	@extend = (proto)-> class extends this
-		import Base
+	@extend = (display-name, proto = display-name)-> class extends this
+			import Base
 
-		~> @initialize ...
+			if typeof display-name is \string
+				import {display-name}
 
-		initialize: ->
-			if super? then super ...
-			else superclass ...
+			~> @initialize ...
 
-		for name, prop of proto
-			attach ::, name, prop, ::[name], superclass
+			initialize: ->
+				if super? then super ...
+				else superclass ...
+
+			for name, prop of proto
+				attach ::, name, prop, ::[name], superclass
 
 	@meta = (meta)->
 		for name, prop of meta

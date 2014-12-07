@@ -14,14 +14,14 @@
       Base.displayName = 'Base';
       var attach, prototype = Base.prototype, constructor = Base;
       attach = function(obj, name, prop, super$, superclass$){
-        return obj[name] = typeof prop === 'function' ? function(){
+        return obj[name] = typeof prop === 'function' ? import$(function(){
           var this$ = this;
           prop.superclass$ = superclass$;
           prop.super$ = function(){
             return super$.apply(this$, arguments);
           };
           return prop.apply(this, arguments);
-        } : prop;
+        }, prop) : prop;
       };
       Base.extend = function(displayName, proto){
         proto == null && (proto = displayName);
@@ -63,15 +63,15 @@
       return Base;
     }());
   });
+  function import$(obj, src){
+    var own = {}.hasOwnProperty;
+    for (var key in src) if (own.call(src, key)) obj[key] = src[key];
+    return obj;
+  }
   function extend$(sub, sup){
     function fun(){} fun.prototype = (sub.superclass = sup).prototype;
     (sub.prototype = new fun).constructor = sub;
     if (typeof sup.extended == 'function') sup.extended(sub);
     return sub;
-  }
-  function import$(obj, src){
-    var own = {}.hasOwnProperty;
-    for (var key in src) if (own.call(src, key)) obj[key] = src[key];
-    return obj;
   }
 }).call(this);

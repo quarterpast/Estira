@@ -172,3 +172,13 @@ test('display name', function(t) {
 
 	t.end();
 });
+test('method properties', function(t) {
+	var bar;
+	var Foo = Base.extend({
+		bar: (bar = function() {}, bar.baz = 'quux', bar)
+	});
+
+	t.ok((new Foo()).bar.baz === 'quux', 'method properties are kept');
+
+	t.end();
+});

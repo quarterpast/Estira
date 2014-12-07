@@ -5,12 +5,12 @@
 
 return class Base
 	attach = (obj, name, prop, super$, superclass$)->
-		obj[name] = if typeof prop is \function then ->
+		obj[name] = if typeof prop is \function then (->
 			prop import {
 				superclass$,
 				super$: ~> super$ ...
 			}
-			prop ...
+			prop ...) import prop
 		else prop
 
 	@extend = (display-name, proto = display-name)-> class extends this
